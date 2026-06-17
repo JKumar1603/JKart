@@ -1,0 +1,175 @@
+<section class="profile-page">
+  <div class="container">
+
+    <div class="profile-header">
+      <div>
+        <span class="profile-badge">My Account</span>
+        <h2>My Profile</h2>
+        <p>View and manage your JKart account information.</p>
+      </div>
+
+      <button class="btn btn-outline-danger logout-profile-btn" type="button" (click)="logout()">
+        Logout
+      </button>
+    </div>
+
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="profile-layout">
+
+      <div class="profile-card">
+        <div class="avatar-circle">
+          {{ getInitial() }}
+        </div>
+
+        <h3>{{ name }}</h3>
+        <p>{{ email }}</p>
+
+        <span class="role-pill">
+          {{ role }}
+        </span>
+
+        <div class="profile-summary">
+          <div>
+            <span>User ID</span>
+            <strong>{{ userId }}</strong>
+          </div>
+
+          <div>
+            <span>Status</span>
+            <strong>Active</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-details-card">
+        <div class="card-title-row">
+          <div>
+            <h4>Account Information</h4>
+            <p>Update your basic profile details.</p>
+          </div>
+
+          <button class="btn btn-primary jkart-btn" type="button" *ngIf="!editMode" (click)="enableEdit()">
+            Edit Profile
+          </button>
+        </div>
+
+        <form>
+          <div class="row">
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                [(ngModel)]="name"
+                [disabled]="!editMode">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                [(ngModel)]="email"
+                [disabled]="!editMode">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Mobile Number</label>
+              <input
+                type="text"
+                class="form-control"
+                name="mobile"
+                [(ngModel)]="mobile"
+                [disabled]="!editMode"
+                placeholder="Add 10 digit mobile number">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">City</label>
+              <input
+                type="text"
+                class="form-control"
+                name="city"
+                [(ngModel)]="city"
+                [disabled]="!editMode"
+                placeholder="Add city">
+            </div>
+
+            <div class="col-12 mb-3">
+              <label class="form-label">Address</label>
+              <textarea
+                class="form-control"
+                rows="3"
+                name="address"
+                [(ngModel)]="address"
+                [disabled]="!editMode"
+                placeholder="Add delivery address"></textarea>
+            </div>
+
+          </div>
+
+          <div class="edit-actions" *ngIf="editMode">
+            <button class="btn btn-primary jkart-btn" type="button" (click)="saveProfile()">
+              Save Changes
+            </button>
+
+            <button class="btn btn-outline-secondary jkart-btn" type="button" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="quick-actions-grid">
+
+      <a class="quick-action-card" routerLink="/orders" *ngIf="auth.isCustomer() || auth.isAdmin()">
+        <span>📦</span>
+        <h5>My Orders</h5>
+        <p>View your order history and payment status.</p>
+      </a>
+
+      <a class="quick-action-card" routerLink="/cart" *ngIf="auth.isCustomer()">
+        <span>🛒</span>
+        <h5>My Cart</h5>
+        <p>Review products added to your cart.</p>
+      </a>
+
+      <a class="quick-action-card" routerLink="/products">
+        <span>🛍️</span>
+        <h5>Browse Products</h5>
+        <p>Search, filter and sort marketplace products.</p>
+      </a>
+
+      <a class="quick-action-card" routerLink="/admin-dashboard" *ngIf="auth.isAdmin()">
+        <span>📊</span>
+        <h5>Admin Dashboard</h5>
+        <p>View analytics, products, users and revenue.</p>
+      </a>
+
+      <a class="quick-action-card" routerLink="/products" *ngIf="auth.isVendor()">
+        <span>🏪</span>
+        <h5>Vendor Products</h5>
+        <p>Manage your listed products and stock.</p>
+      </a>
+
+    </div>
+
+    <div class="profile-note">
+      <strong>Note:</strong>
+      Profile changes are saved in browser storage for the logged-in session.
+    </div>
+
+  </div>
+</section>

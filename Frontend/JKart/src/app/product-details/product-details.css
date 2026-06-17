@@ -1,0 +1,159 @@
+.details-page {
+  min-height: calc(100vh - 160px);
+  background: #f3f6fb;
+  padding: 34px 0 70px;
+}
+
+.back-btn {
+  border-radius: 18px;
+  font-weight: 850;
+  margin-bottom: 22px;
+}
+
+.details-card {
+  background: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+}
+
+.details-image {
+  min-height: 520px;
+  background: #eef6ff;
+}
+
+.details-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.details-content {
+  padding: 42px;
+}
+
+.details-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.category-pill {
+  display: inline-block;
+  background: #eef6ff;
+  color: #2874f0;
+  border-radius: 18px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.badge-soft {
+  border-radius: 18px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.badge-approved,
+.badge-in-stock {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge-pending {
+  background: #fff7cc;
+  color: #92400e;
+}
+
+.badge-rejected,
+.badge-out-stock {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.details-content h2 {
+  color: #172337;
+  font-size: 44px;
+  font-weight: 950;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.details-content h3 {
+  color: #172337;
+  font-size: 34px;
+  font-weight: 950;
+  margin-bottom: 20px;
+}
+
+.description {
+  color: #64748b;
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.info-grid div {
+  background: #f8fafc;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.info-grid span {
+  display: block;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 850;
+  margin-bottom: 6px;
+}
+
+.info-grid strong {
+  color: #172337;
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.details-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 992px) {
+  .details-card {
+    grid-template-columns: 1fr;
+  }
+
+  .details-image {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 576px) {
+  .details-content {
+    padding: 28px;
+  }
+
+  .details-content h2 {
+    font-size: 34px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+

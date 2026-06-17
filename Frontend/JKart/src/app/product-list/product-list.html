@@ -1,0 +1,191 @@
+<section class="products-page">
+  <div class="container">
+
+    <div class="page-header compact-header">
+      <div>
+        <span class="page-badge">JKart Marketplace</span>
+        <h2 *ngIf="!auth.isVendor() && !auth.isAdmin()">Explore Products</h2>
+        <h2 *ngIf="auth.isVendor()">Vendor Product Dashboard</h2>
+        <h2 *ngIf="auth.isAdmin()">Admin Product Approval</h2>
+        <p>Browse, manage and approve products from one place.</p>
+      </div>
+
+      <button class="btn btn-primary jkart-btn" type="button" *ngIf="auth.isVendor()" (click)="showAddProductForm = !showAddProductForm">
+        {{ showAddProductForm ? 'Close Form' : 'Add Product' }}
+      </button>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <div class="add-product-card" *ngIf="auth.isVendor() && showAddProductForm">
+      <h4>Add New Product</h4>
+
+      <form (ngSubmit)="addProduct()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="newProduct.name" placeholder="Enter product name">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" class="form-control" name="price" [(ngModel)]="newProduct.price" placeholder="Price">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" class="form-control" name="quantity" [(ngModel)]="newProduct.quantity" placeholder="Quantity">
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Category</label>
+            <select class="form-select" name="category" [(ngModel)]="newProduct.category">
+              <option value="Electronics">Electronics</option>
+              <option value="Mobiles">Mobiles</option>
+              <option value="Gaming">Gaming</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Footwear">Footwear</option>
+              <option value="Beauty">Beauty</option>
+              <option value="Home Appliances">Home Appliances</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Kitchen">Kitchen</option>
+              <option value="Books">Books</option>
+              <option value="Sports">Sports</option>
+              <option value="Accessories">Accessories</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Image URL</label>
+            <input type="text" class="form-control" name="imageUrl" [(ngModel)]="newProduct.imageUrl" placeholder="Enter product image URL">
+          </div>
+
+          <div class="col-12 mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" name="description" [(ngModel)]="newProduct.description" placeholder="Enter product description"></textarea>
+          </div>
+
+          <div class="col-12">
+            <button class="btn btn-primary jkart-btn" type="submit">Save Product</button>
+            <button class="btn btn-outline-secondary jkart-btn ms-2" type="button" (click)="resetForm()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="filter-card compact-filter-card">
+      <div class="filter-grid">
+        <div class="filter-field search-field">
+          <label>Search Products</label>
+          <input type="text" class="form-control" placeholder="Search by name, vendor, category or price" [(ngModel)]="searchText" (input)="searchProducts()">
+        </div>
+
+        <div class="filter-field">
+          <label>Category</label>
+          <select class="form-select" [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label>Sort By</label>
+          <select class="form-select" [(ngModel)]="selectedSort" (change)="sortProducts()">
+            <option *ngFor="let option of sortOptions" [value]="option.value">{{ option.label }}</option>
+          </select>
+        </div>
+
+        <div class="filter-actions">
+          <span class="result-count">{{ filteredProducts.length }} found</span>
+          <button class="btn btn-outline-secondary btn-sm" type="button" (click)="clearFilters()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center py-5" *ngIf="isLoading">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-3">Loading products...</p>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && filteredProducts.length === 0">
+      <h4>No products available</h4>
+      <p>Try changing the search text, category or sorting option.</p>
+      <button class="btn btn-primary rounded-pill" type="button" (click)="clearFilters()">Clear Filters</button>
+    </div>
+
+    <div class="row g-4" *ngIf="!isLoading && filteredProducts.length > 0">
+      <div class="col-lg-4 col-md-6" *ngFor="let product of filteredProducts">
+        <div class="product-card" [class.customer-card]="!auth.isAdmin() && !auth.isVendor()">
+
+          <button class="wishlist-heart" type="button" *ngIf="auth.isCustomer()" [class.active]="isWishlisted(product)" (click)="addToWishlist(product)">
+            ♥
+          </button>
+
+          <div class="product-image">
+            <img *ngIf="product.imageUrl" [src]="getImageUrl(product)" [alt]="product.name">
+            <span *ngIf="!product.imageUrl">{{ product.name.charAt(0) }}</span>
+          </div>
+
+          <div class="product-body customer-view" *ngIf="!auth.isAdmin() && !auth.isVendor()">
+            <div class="customer-title-row">
+              <h5>{{ product.name }}</h5>
+              <span class="badge-soft" [ngClass]="getStockClass(product)">{{ getStockLabel(product) }}</span>
+            </div>
+
+            <h4 class="customer-price">₹{{ product.price }}</h4>
+
+            <div class="actions compact-actions">
+              <button class="btn btn-outline-primary btn-sm" type="button" *ngIf="product.id" (click)="viewProduct(product)">
+                View Details
+              </button>
+
+              <button class="btn btn-outline-danger btn-sm" type="button" *ngIf="auth.isCustomer()" (click)="addToWishlist(product)">
+                {{ isWishlisted(product) ? 'Wishlisted' : 'Wishlist' }}
+              </button>
+
+              <button class="btn btn-primary btn-sm" type="button" *ngIf="auth.isCustomer()" [disabled]="!canAddToCart(product)" (click)="addToCart(product)">
+                {{ product.quantity > 0 ? 'Add to Cart' : 'Out of Stock' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="product-body" *ngIf="auth.isAdmin() || auth.isVendor()">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+              <h5>{{ product.name }}</h5>
+              <span class="badge-soft" [ngClass]="getStatusClass(product.status)">{{ product.status }}</span>
+            </div>
+
+            <span class="category-pill">{{ product.category }}</span>
+            <p class="description">{{ product.description }}</p>
+
+            <div class="product-info">
+              <span>Vendor</span>
+              <strong>{{ product.vendor }}</strong>
+            </div>
+
+            <div class="product-info">
+              <span>Available</span>
+              <strong>{{ product.quantity }}</strong>
+            </div>
+
+            <div class="price-row">
+              <h4>₹{{ product.price }}</h4>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-outline-primary btn-sm" type="button" *ngIf="product.id" (click)="viewProduct(product)">
+                View Details
+              </button>
+              <button class="btn btn-success btn-sm" type="button" *ngIf="auth.isAdmin() && product.status === 'PENDING'" (click)="approveProduct(product.id)">Approve</button>
+              <button class="btn btn-warning btn-sm" type="button" *ngIf="auth.isAdmin() && product.status === 'PENDING'" (click)="rejectProduct(product.id)">Reject</button>
+              <button class="btn btn-outline-danger btn-sm" type="button" *ngIf="auth.isAdmin() || auth.isVendor()" (click)="deleteProduct(product.id)">Delete</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

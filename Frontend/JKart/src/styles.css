@@ -1,0 +1,392 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #222;
+}
+
+a {
+  text-decoration: none;
+}
+
+.page-wrapper {
+  min-height: calc(100vh - 70px);
+  padding: 30px 0;
+}
+
+.jkart-gradient {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+}
+
+.jkart-card {
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.jkart-btn {
+  border-radius: 30px;
+  padding: 10px 22px;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.badge-soft {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.badge-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-approved {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.badge-rejected {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.badge-paid {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.badge-unpaid {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-in-stock {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.badge-out-stock {
+  background: #f8d7da;
+  color: #842029;
+}
+
+:root {
+  --jkart-blue: #2874f0;
+  --jkart-dark: #172337;
+  --jkart-yellow: #ffe500;
+  --jkart-purple: #5816d9;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes softPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 116, 240, 0.28);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(40, 116, 240, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 116, 240, 0);
+  }
+}
+
+@keyframes shineMove {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}
+
+.jmart-navbar {
+  animation: fadeDown 0.45s ease both;
+}
+
+.brand-logo {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.brand-area:hover .brand-logo {
+  transform: rotate(-4deg) scale(1.06);
+  box-shadow: 0 12px 28px rgba(255, 159, 0, 0.45);
+}
+
+.nav-links a,
+.quick-category-row button,
+.nav-search button,
+.register-btn,
+.logout-btn,
+.jkart-btn,
+.auth-btn,
+.refresh-btn {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.nav-links a:hover,
+.quick-category-row button:hover,
+.nav-search button:hover,
+.register-btn:hover,
+.logout-btn:hover,
+.jkart-btn:hover,
+.auth-btn:hover,
+.refresh-btn:hover {
+  transform: translateY(-2px);
+}
+
+.hero-banner,
+.page-header,
+.dashboard-header,
+.auth-container {
+  animation: fadeUp 0.55s ease both;
+}
+
+.hero-sale-card {
+  animation: softFloat 4s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-sale-card::after,
+.stat-card::after,
+.offer-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.hero-sale-card:hover::after,
+.stat-card:hover::after,
+.offer-card:hover::after {
+  animation: shineMove 0.9s ease;
+}
+
+.offer-card,
+.featured-card,
+.highlight-card,
+.product-card,
+.dashboard-card,
+.inventory-card,
+.auth-card,
+.auth-brand-panel,
+.footer-column {
+  animation: fadeUp 0.65s ease both;
+}
+
+.offer-card,
+.featured-card,
+.highlight-card,
+.product-card,
+.dashboard-card,
+.stat-card,
+.inventory-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-card:hover,
+.highlight-card:hover,
+.product-card:hover,
+.dashboard-card:hover,
+.stat-card:hover,
+.inventory-card:hover {
+  transform: translateY(-6px);
+}
+
+.featured-image img,
+.product-image img {
+  transition: transform 0.35s ease;
+}
+
+.featured-card:hover .featured-image img,
+.product-card:hover .product-image img {
+  transform: scale(1.07);
+}
+
+.stat-card,
+.product-card,
+.featured-card,
+.dashboard-card,
+.highlight-card,
+.offer-card,
+.auth-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-card:hover,
+.product-card:hover,
+.featured-card:hover,
+.dashboard-card:hover,
+.highlight-card:hover,
+.offer-card:hover,
+.auth-card:hover {
+  box-shadow: 0 22px 58px rgba(15, 23, 42, 0.14);
+}
+
+.btn-primary,
+.auth-btn,
+.refresh-btn {
+  animation: softPulse 2.8s ease infinite;
+}
+
+.progress-fill,
+.bar-fill {
+  animation: fadeUp 0.7s ease both;
+}
+
+.alert {
+  animation: fadeDown 0.35s ease both;
+}
+
+.empty-state {
+  animation: fadeUp 0.45s ease both;
+}
+
+.social-row span {
+  transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.social-row span:hover {
+  transform: translateY(-3px) scale(1.08);
+  background: var(--jkart-yellow);
+  color: var(--jkart-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #222;
+}
+
+a {
+  text-decoration: none;
+}
+
+.page-wrapper {
+  min-height: calc(100vh - 70px);
+  padding: 30px 0;
+}
+
+.jkart-gradient {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+}
+
+.jkart-card {
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.jkart-btn {
+  border-radius: 30px;
+  padding: 10px 22px;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.badge-soft {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.badge-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badge-approved {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.badge-rejected {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.badge-paid {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.badge-unpaid {
+  background: #fff3cd;
+  color: #856404;
+} */

@@ -1,0 +1,123 @@
+<nav class="jkart-navbar">
+  <div class="navbar-shell">
+
+    <a class="brand-area" routerLink="/home" (click)="closeAccountMenu()">
+      <div class="brand-logo">J</div>
+      <div class="brand-text">
+        <span>JKart</span>
+        <small>Marketplace</small>
+      </div>
+    </a>
+
+    <div class="nav-search">
+      <span class="search-icon">⌕</span>
+      <input
+        type="text"
+        placeholder="Search products, brands and categories"
+        [(ngModel)]="searchText"
+        (keyup.enter)="searchProducts()">
+      <button type="button" (click)="searchProducts()">
+        Search
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a class="nav-link-item" routerLink="/home" routerLinkActive="active-link" (click)="closeAccountMenu()">
+        <span>⌂</span>
+        Home
+      </a>
+
+      <a class="nav-link-item" routerLink="/products" routerLinkActive="active-link" (click)="closeAccountMenu()">
+        <span>▦</span>
+        Products
+      </a>
+
+      <a
+        class="nav-link-item cart-link"
+        routerLink="/cart"
+        routerLinkActive="active-link"
+        *ngIf="auth.isLoggedIn() && auth.isCustomer()"
+        (click)="closeAccountMenu()">
+        <span>🛒</span>
+        Cart
+      </a>
+
+      <a
+        routerLink="/login"
+        class="login-link"
+        *ngIf="!auth.isLoggedIn()">
+        Login
+      </a>
+
+      <a
+        routerLink="/register"
+        class="register-btn"
+        *ngIf="!auth.isLoggedIn()">
+        Register
+      </a>
+
+      <div class="account-dropdown" *ngIf="auth.isLoggedIn()">
+        <button class="user-chip" type="button" (click)="toggleAccountMenu()">
+          <div class="user-avatar">{{ auth.getName().charAt(0) }}</div>
+          <div class="user-info">
+            <span>{{ auth.getRole() }}</span>
+            <strong>{{ auth.getName() }}</strong>
+          </div>
+          <small [class.arrow-open]="isAccountMenuOpen">⌄</small>
+        </button>
+
+        <div class="dropdown-menu-box" *ngIf="isAccountMenuOpen">
+          <div class="dropdown-user-card">
+            <div class="dropdown-avatar">{{ auth.getName().charAt(0) }}</div>
+            <div>
+              <strong>{{ auth.getName() }}</strong>
+              <span>{{ auth.getRole() }}</span>
+            </div>
+          </div>
+
+          <a routerLink="/profile" (click)="closeAccountMenu()">
+            <span>👤</span>
+            My Profile
+          </a>
+
+          <a routerLink="/wishlist" *ngIf="auth.isCustomer()" (click)="closeAccountMenu()">
+            <span>♡</span>
+            Wishlist
+          </a>
+
+          <a routerLink="/orders" *ngIf="auth.isCustomer() || auth.isAdmin()" (click)="closeAccountMenu()">
+            <span>📦</span>
+            My Orders
+          </a>
+
+          <a routerLink="/admin-dashboard" *ngIf="auth.isAdmin()" (click)="closeAccountMenu()">
+            <span>📊</span>
+            Dashboard
+          </a>
+
+          <a routerLink="/products" *ngIf="auth.isVendor()" (click)="closeAccountMenu()">
+            <span>🏪</span>
+            My Products
+          </a>
+
+          <button class="dropdown-logout-btn" type="button" (click)="logout()">
+            <span>⏻</span>
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-strip">
+    <button type="button" (click)="goToCategory('Electronics')"><span>💻</span>Electronics</button>
+    <button type="button" (click)="goToCategory('Mobiles')"><span>📱</span>Mobiles</button>
+    <button type="button" (click)="goToCategory('Gaming')"><span>🎮</span>Gaming</button>
+    <button type="button" (click)="goToCategory('Fashion')"><span>👕</span>Fashion</button>
+    <button type="button" (click)="goToCategory('Beauty')"><span>💄</span>Beauty</button>
+    <button type="button" (click)="goToCategory('Home Appliances')"><span>🏠</span>Home</button>
+    <button type="button" (click)="goToCategory('Books')"><span>📚</span>Books</button>
+    <button type="button" (click)="goToCategory('Sports')"><span>🏏</span>Sports</button>
+  </div>
+</nav>
+

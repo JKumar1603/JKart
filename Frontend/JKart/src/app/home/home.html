@@ -1,0 +1,121 @@
+<section class="home-page">
+  <div class="container">
+
+    <div class="hero-banner">
+      <div class="hero-content">
+        <span class="hero-badge">JKart Marketplace</span>
+        <h1>Big deals, trusted sellers, simple shopping.</h1>
+        <p>
+          Discover electronics, mobiles, fashion, beauty, home appliances, books,
+          sports products and more from verified marketplace vendors.
+        </p>
+
+        <div class="hero-actions">
+          <a routerLink="/products" class="btn btn-warning jkart-btn">Shop Now</a>
+          <a routerLink="/register" class="btn btn-outline-light jkart-btn">Become a Member</a>
+        </div>
+      </div>
+
+      <div class="hero-sale-card">
+        <span class="sale-label">Today Special</span>
+        <h3>Flat 10% Off</h3>
+        <p>On selected products across top categories</p>
+        <a routerLink="/products">Explore Offers</a>
+      </div>
+    </div>
+
+    <div class="offers-row">
+      <div class="offer-card offer-yellow">
+        <span>Electronics</span>
+        <h4>Smart gadgets for daily use</h4>
+        <p>Laptops, speakers, headphones and accessories.</p>
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'Electronics' }">Shop Electronics</a>
+      </div>
+
+      <div class="offer-card offer-blue">
+        <span>Fashion</span>
+        <h4>Fresh styles for every day</h4>
+        <p>Explore clothing, footwear and accessories.</p>
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'Fashion' }">Shop Fashion</a>
+      </div>
+
+      <div class="offer-card offer-green">
+        <span>Home Picks</span>
+        <h4>Upgrade your home setup</h4>
+        <p>Furniture, kitchen products and appliances.</p>
+        <a [routerLink]="['/products']" [queryParams]="{ category: 'Home Appliances' }">Shop Home</a>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <div>
+        <span class="section-badge">Featured Deals</span>
+        <h2>Popular picks for you</h2>
+        <p>Hand-picked products and sale highlights from JKart marketplace.</p>
+      </div>
+
+      <a routerLink="/products" class="btn btn-outline-primary rounded-pill">View All Products</a>
+    </div>
+
+    <div class="featured-grid">
+      <div class="featured-card" *ngFor="let product of dealProducts">
+        <div class="featured-image">
+          <img [src]="product.imageUrl" [alt]="product.name">
+        </div>
+
+        <div class="featured-body">
+          <span>{{ product.category }}</span>
+          <h5>{{ product.name }}</h5>
+          <p>{{ product.offer }}</p>
+          <a [routerLink]="['/products']" [queryParams]="{ category: product.category }">View Products</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" *ngIf="recentlyViewed.length > 0">
+      <div>
+        <span class="section-badge">Recently Viewed</span>
+        <h2>Continue where you left off</h2>
+        <p>Products you recently opened from the marketplace.</p>
+      </div>
+    </div>
+
+    <div class="recent-grid" *ngIf="recentlyViewed.length > 0">
+      <div class="recent-card" *ngFor="let product of recentlyViewed">
+        <div class="recent-image">
+          <img [src]="getImageUrl(product)" [alt]="product.name">
+        </div>
+
+        <div class="recent-body">
+          <span>{{ product.category }}</span>
+          <h5>{{ product.name }}</h5>
+          <strong>₹{{ product.price }}</strong>
+          <a *ngIf="product.id" [routerLink]="['/products', product.id]">View Again</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-strip">
+      <div>
+        <span class="section-badge light">Why JKart?</span>
+        <h2>Built for customers, vendors and admins</h2>
+        <p>
+          JKart supports product approval, inventory visibility, cart checkout,
+          order tracking, payment and invoice generation in one marketplace.
+        </p>
+      </div>
+
+      <a routerLink="/products" class="btn btn-light jkart-btn">Start Shopping</a>
+    </div>
+
+    <div class="highlight-grid">
+      <div class="highlight-card" *ngFor="let item of shoppingHighlights">
+        <div class="highlight-icon">{{ item.icon }}</div>
+        <h5>{{ item.title }}</h5>
+        <p>{{ item.text }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+

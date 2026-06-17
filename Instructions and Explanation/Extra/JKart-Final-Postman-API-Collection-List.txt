@@ -1,0 +1,36 @@
+JKart Postman API Collection List
+
+Base URL
+http://localhost:9090
+
+AUTH SERVICE
+1. POST /api/auth/register
+2. POST /api/auth/send-otp
+3. POST /api/auth/verify-otp
+4. POST /api/auth/login
+5. GET /api/auth/stats
+6. GET /api/auth/users
+
+PRODUCT SERVICE
+7. GET /api/products
+8. GET /api/products/{id}
+9. POST /api/products
+10. PUT /api/products/{id}
+11. DELETE /api/products/{id}
+12. GET /api/products/search?keyword=
+13. GET /api/products/category/{category}
+
+ORDER SERVICE
+14. POST /api/orders
+15. GET /api/orders/customer/{customerId}
+16. GET /api/orders
+17. GET /api/orders/{id}
+18. PUT /api/orders/{id}/payment-status
+
+NOTIFICATION SERVICE
+19. GET /api/notifications/test
+20. GET /api/notifications/registration
+21. GET /api/notifications/otp
+22. GET /api/notifications/order
+23. GET /api/notifications/payment
+24. GET /api/notifications/custom

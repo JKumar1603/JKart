@@ -1,0 +1,119 @@
+<section class="invoice-page">
+  <div class="container">
+
+    <div class="invoice-actions no-print">
+      <button class="btn btn-outline-secondary rounded-pill" type="button" (click)="goBack()">
+        Back to Orders
+      </button>
+
+      <button class="btn btn-primary rounded-pill" type="button" (click)="downloadInvoice()" *ngIf="order">
+        Download PDF Invoice
+      </button>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="text-center py-5" *ngIf="isLoading">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-3">Loading invoice...</p>
+    </div>
+
+    <div class="invoice-card" *ngIf="!isLoading && order">
+      <div class="invoice-header">
+        <div>
+          <h2>JKart</h2>
+          <p>Multi-Vendor Marketplace</p>
+        </div>
+
+        <div class="invoice-title">
+          <h3>Invoice</h3>
+          <span>INV-{{ getOrderId() }}</span>
+        </div>
+      </div>
+
+      <div class="invoice-summary-grid">
+        <div>
+          <span>Invoice Date</span>
+          <strong>{{ invoiceDate | date:'mediumDate' }}</strong>
+        </div>
+
+        <div>
+          <span>Order ID</span>
+          <strong>#{{ getOrderId() }}</strong>
+        </div>
+
+        <div>
+          <span>Payment Status</span>
+          <strong class="paid-text">{{ getPaymentStatus() }}</strong>
+        </div>
+      </div>
+
+      <h4>Customer Details</h4>
+      <div class="customer-grid">
+        <div>
+          <span>Customer ID</span>
+          <strong>{{ order.customerId }}</strong>
+        </div>
+
+        <div>
+          <span>Customer Email</span>
+          <strong>{{ auth.getEmail() }}</strong>
+        </div>
+      </div>
+
+      <h4>Delivery Address</h4>
+      <div class="address-box" *ngIf="address">
+        <strong>{{ address.fullName }}</strong>
+        <p>{{ address.addressLine }}, {{ address.city }}, {{ address.state }} - {{ address.pincode }}</p>
+        <p>Mobile: {{ address.mobile }}</p>
+      </div>
+
+      <h4>Product Details</h4>
+      <div class="product-box">
+        <h5>{{ getProductName() }}</h5>
+        <p>{{ getProductCategory() }} | Vendor: {{ getVendorName() }}</p>
+      </div>
+
+      <h4>Order Details</h4>
+      <div class="table-responsive">
+        <table class="table invoice-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Order Status</th>
+              <th>Payment Status</th>
+              <th class="text-end">Total</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>{{ getProductName() }}</td>
+              <td>{{ getProductCategory() }}</td>
+              <td>₹{{ getUnitPrice() }}</td>
+              <td>{{ order.quantity }}</td>
+              <td>{{ getOrderStatus() }}</td>
+              <td>{{ getPaymentStatus() }}</td>
+              <td class="text-end">₹{{ order.totalAmount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="invoice-total">
+        <span>Grand Total</span>
+        <strong>₹{{ order.totalAmount }}</strong>
+      </div>
+
+      <div class="invoice-footer">
+        <p>Thank you for shopping with JKart.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+

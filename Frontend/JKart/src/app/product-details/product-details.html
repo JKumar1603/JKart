@@ -1,0 +1,72 @@
+<section class="details-page">
+  <div class="container">
+
+    <button class="btn btn-outline-secondary back-btn" type="button" (click)="goBack()">
+      Back to Products
+    </button>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <div class="text-center py-5" *ngIf="isLoading">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-3">Loading product details...</p>
+    </div>
+
+    <div class="details-card" *ngIf="!isLoading && product">
+      <div class="details-image">
+        <img [src]="getImageUrl()" [alt]="product.name">
+      </div>
+
+      <div class="details-content">
+        <div class="details-top-row">
+          <span class="category-pill">{{ product.category }}</span>
+          <span class="badge-soft" [ngClass]="getStatusClass()">{{ getStatusLabel() }}</span>
+        </div>
+
+        <h2>{{ product.name }}</h2>
+        <h3>₹{{ product.price }}</h3>
+        <p class="description">{{ product.description }}</p>
+
+        <div class="info-grid">
+          <div>
+            <span>Category</span>
+            <strong>{{ product.category }}</strong>
+          </div>
+
+          <div>
+            <span>Vendor</span>
+            <strong>{{ product.vendor }}</strong>
+          </div>
+
+          <div>
+            <span>Available Quantity</span>
+            <strong>{{ product.quantity }}</strong>
+          </div>
+
+          <div *ngIf="auth.isAdmin() || auth.isVendor()">
+            <span>Approval Status</span>
+            <strong>{{ product.status }}</strong>
+          </div>
+        </div>
+
+        <div class="details-actions">
+          <button class="btn btn-primary jkart-btn" type="button" *ngIf="auth.isCustomer()" [disabled]="product.quantity <= 0" (click)="addToCart()">
+            {{ product.quantity > 0 ? 'Add to Cart' : 'Out of Stock' }}
+          </button>
+
+          <button class="btn btn-outline-danger jkart-btn" type="button" *ngIf="auth.isCustomer()" (click)="addToWishlist()">
+            Add to Wishlist
+          </button>
+
+          <a routerLink="/login" class="btn btn-primary jkart-btn" *ngIf="!auth.isLoggedIn()">
+            Login to Buy
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+

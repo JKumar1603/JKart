@@ -1,0 +1,87 @@
+<section class="wishlist-page">
+  <div class="container">
+
+    <div class="wishlist-header">
+      <div>
+        <span class="wishlist-badge">Saved Items</span>
+        <h2>My Wishlist</h2>
+        <p>Products you saved for later shopping.</p>
+      </div>
+
+      <button
+        class="btn btn-outline-danger rounded-pill"
+        type="button"
+        *ngIf="wishlistItems.length > 0"
+        (click)="clearWishlist()">
+        Clear Wishlist
+      </button>
+    </div>
+
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="empty-wishlist" *ngIf="wishlistItems.length === 0">
+      <h4>Your wishlist is empty</h4>
+      <p>Save products you like and view them later from here.</p>
+      <a routerLink="/products" class="btn btn-primary rounded-pill">
+        Browse Products
+      </a>
+    </div>
+
+    <div class="wishlist-grid" *ngIf="wishlistItems.length > 0">
+      <div class="wishlist-card" *ngFor="let product of wishlistItems">
+
+        <div class="wishlist-image">
+          <img [src]="getImageUrl(product)" [alt]="product.name">
+        </div>
+
+        <div class="wishlist-body">
+          <span class="category-pill">{{ product.category }}</span>
+          <h5>{{ product.name }}</h5>
+          <p>{{ product.description }}</p>
+
+          <div class="wishlist-info">
+            <span>Price</span>
+            <strong>₹{{ product.price }}</strong>
+          </div>
+
+          <div class="wishlist-info">
+            <span>Available</span>
+            <strong>{{ product.quantity }}</strong>
+          </div>
+
+          <div class="wishlist-actions">
+            <a
+              class="btn btn-outline-primary btn-sm"
+              *ngIf="product.id"
+              [routerLink]="['/products', product.id]">
+              View Details
+            </a>
+
+            <button
+              class="btn btn-primary btn-sm"
+              type="button"
+              [disabled]="product.quantity <= 0"
+              (click)="moveToCart(product)">
+              {{ product.quantity > 0 ? 'Move to Cart' : 'Out of Stock' }}
+            </button>
+
+            <button
+              class="btn btn-outline-danger btn-sm"
+              type="button"
+              (click)="removeFromWishlist(product.id)">
+              Remove
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

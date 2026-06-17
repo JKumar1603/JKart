@@ -1,0 +1,164 @@
+<section class="payment-page">
+  <div class="container">
+
+    <div class="payment-header">
+      <span class="payment-badge">Checkout</span>
+      <h2>Address & Payment</h2>
+      <p>Confirm delivery address and choose payment method.</p>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="text-center py-5" *ngIf="isLoading">
+      <div class="spinner-border text-primary"></div>
+      <p class="mt-3">Loading payment details...</p>
+    </div>
+
+    <div class="success-card" *ngIf="!isLoading && orderSuccess">
+      <div class="success-icon">✓</div>
+      <h3>{{ successMessage }}</h3>
+      <p>Your order has been confirmed. You can view the order status and invoice from the orders page.</p>
+
+      <div class="success-actions">
+        <button class="btn btn-primary rounded-pill" type="button" (click)="goToOrders()">
+          Go to Orders
+        </button>
+
+        <button class="btn btn-outline-primary rounded-pill" type="button" (click)="goToProducts()">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+
+    <div class="payment-layout" *ngIf="!isLoading && order && !orderSuccess">
+
+      <div class="payment-main-card">
+        <h4>Delivery Address</h4>
+
+        <div class="address-box" *ngIf="address">
+          <strong>{{ address.fullName }}</strong>
+          <p>{{ address.addressLine }}</p>
+          <p>{{ address.city }}, {{ address.state }} - {{ address.pincode }}</p>
+          <p>Mobile: {{ address.mobile }}</p>
+        </div>
+
+        <h4>Payment Method</h4>
+
+        <div class="payment-options">
+          <label class="payment-option" [class.active]="paymentMethod === 'COD'">
+            <input type="radio" name="paymentMethod" value="COD" [(ngModel)]="paymentMethod">
+            <div>
+              <strong>Cash on Delivery</strong>
+              <span>Pay when the order is delivered</span>
+            </div>
+          </label>
+
+          <label class="payment-option" [class.active]="paymentMethod === 'UPI'">
+            <input type="radio" name="paymentMethod" value="UPI" [(ngModel)]="paymentMethod">
+            <div>
+              <strong>UPI Payment</strong>
+              <span>Enter any UPI ID for payment confirmation</span>
+            </div>
+          </label>
+
+          <div class="payment-form" *ngIf="paymentMethod === 'UPI'">
+            <label class="form-label">UPI ID</label>
+            <input
+              type="text"
+              class="form-control"
+              name="upiId"
+              [(ngModel)]="upiId"
+              placeholder="example@upi">
+          </div>
+
+          <label class="payment-option" [class.active]="paymentMethod === 'CARD'">
+            <input type="radio" name="paymentMethod" value="CARD" [(ngModel)]="paymentMethod">
+            <div>
+              <strong>Card Payment</strong>
+              <span>Pay using debit or credit card</span>
+            </div>
+          </label>
+
+          <div class="payment-form" *ngIf="paymentMethod === 'CARD'">
+            <div class="mb-3">
+              <label class="form-label">Card Number</label>
+              <input
+                type="text"
+                class="form-control"
+                name="cardNumber"
+                [(ngModel)]="cardNumber"
+                placeholder="1234 5678 9012">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Name on Card</label>
+              <input
+                type="text"
+                class="form-control"
+                name="cardName"
+                [(ngModel)]="cardName"
+                placeholder="Jay Kumar">
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Expiry</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="cardExpiry"
+                  [(ngModel)]="cardExpiry"
+                  placeholder="MM/YY">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">CVV</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="cardCvv"
+                  [(ngModel)]="cardCvv"
+                  placeholder="123">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary pay-btn" type="button" [disabled]="isProcessing" (click)="completePayment()">
+          {{ isProcessing ? 'Processing...' : (paymentMethod === 'COD' ? 'Place COD Order' : 'Place Order') }}
+        </button>
+      </div>
+
+      <div class="payment-summary-card">
+        <h4>Order Summary</h4>
+
+        <div class="summary-image">
+          <img [src]="getImageUrl()" [alt]="getProductName()">
+        </div>
+
+        <span class="category-pill">{{ getProductCategory() }}</span>
+        <h5>{{ getProductName() }}</h5>
+
+        <div class="summary-line">
+          <span>Order ID</span>
+          <strong>#{{ getOrderId() }}</strong>
+        </div>
+
+        <div class="summary-line">
+          <span>Quantity</span>
+          <strong>{{ order.quantity }}</strong>
+        </div>
+
+        <div class="summary-line total-line">
+          <span>Total Amount</span>
+          <strong>₹{{ order.totalAmount }}</strong>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+

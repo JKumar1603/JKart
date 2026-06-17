@@ -1,0 +1,88 @@
+-- JKart E-Commerce Platform - Final Database Script
+-- Database Name: ecomdb
+-- Purpose: Clean submission-ready database script for examiner
+-- Note: This project uses Spring Boot JPA. Tables can also be auto-created by backend services.
+-- This script keeps only required schema, one sample approved product, and verification queries.
+
+CREATE DATABASE IF NOT EXISTS ecomdb;
+USE ecomdb;
+
+-- ============================================================
+-- USERS TABLE
+-- Used by C03AuthService for authentication and authorization
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(50) NOT NULL
+);
+
+-- ============================================================
+-- PRODUCTS TABLE
+-- Used by C04ProductService for product catalog, inventory,
+-- vendor product creation, image display, category filtering,
+-- and admin approval workflow
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS products (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(1000) NOT NULL,
+  price DOUBLE NOT NULL,
+  quantity INT NOT NULL,
+  vendor VARCHAR(255) NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  category VARCHAR(255) NOT NULL,
+  image_url VARCHAR(1000)
+);
+
+-- ============================================================
+-- ORDERS TABLE
+-- Used by C05OrderService for order placement, payment status,
+-- order tracking, invoice generation, and admin monitoring
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS orders (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  customer_id BIGINT NOT NULL,
+  customer_email VARCHAR(255),
+  product_id BIGINT NOT NULL,
+  quantity INT NOT NULL,
+  total_amount DOUBLE,
+  order_status VARCHAR(50),
+  payment_status VARCHAR(50)
+);
+
+-- ============================================================
+-- SAMPLE PRODUCT DATA
+-- One approved product is enough for examiner/demo verification.
+-- More products can be added from the Angular Vendor UI or Postman.
+-- ============================================================
+
+INSERT INTO products (name, description, price, quantity, vendor, status, category, image_url)
+SELECT
+  'Dell Inspiron Laptop',
+  'Powerful laptop with Intel processor, 16GB RAM and SSD storage',
+  62000,
+  15,
+  'JK Electronics',
+  'APPROVED',
+  'Electronics',
+  'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80'
+WHERE NOT EXISTS (
+  SELECT 1 FROM products WHERE name = 'Dell Inspiron Laptop'
+);
+
+-- ============================================================
+-- VERIFICATION QUERIES
+-- These queries can be used by the examiner to verify database setup.
+-- ============================================================
+
+SELECT * FROM users;
+SELECT * FROM products;
+SELECT * FROM orders;
+SELECT id, name, category, status FROM products;
+SELECT DISTINCT category FROM products;

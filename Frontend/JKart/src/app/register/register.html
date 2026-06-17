@@ -1,0 +1,157 @@
+<section class="auth-page register-page">
+  <div class="auth-container">
+
+    <div class="auth-brand-panel register-brand-panel">
+      <div class="brand-mini">
+        <div class="brand-circle">J</div>
+        <div>
+          <h3>JKart</h3>
+          <span>Marketplace</span>
+        </div>
+      </div>
+
+      <h1>Create your JKart account</h1>
+      <p>
+        Register securely using OTP verification. The OTP will be displayed in the
+        Notification Service console during project demo.
+      </p>
+
+      <div class="role-preview">
+        <div>
+          <span>Step 1</span>
+          <strong>Enter registration details</strong>
+        </div>
+        <div>
+          <span>Step 2</span>
+          <strong>Send OTP to Notification Service</strong>
+        </div>
+        <div>
+          <span>Step 3</span>
+          <strong>Verify OTP and create account</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <span class="auth-badge">Register</span>
+      <h2>Join JKart today</h2>
+      <p class="auth-subtitle">Create an account using OTP verification.</p>
+
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="alert alert-success" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            [(ngModel)]="registerData.name"
+            [disabled]="otpSent"
+            placeholder="Enter your name">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email Address</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="registerData.email"
+            [disabled]="otpSent"
+            placeholder="Enter your email">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="registerData.password"
+            [disabled]="otpSent"
+            placeholder="Create a password">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Select Role</label>
+          <select
+            class="form-select"
+            name="role"
+            [(ngModel)]="registerData.role"
+            [disabled]="otpSent"
+            (change)="roleChanged()">
+            <option value="CUSTOMER">Customer</option>
+            <option value="VENDOR">Vendor</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+
+        <div class="mb-3 admin-password-box" *ngIf="registerData.role === 'ADMIN'">
+          <label class="form-label">Main Admin Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="adminPassword"
+            [(ngModel)]="registerData.adminPassword"
+            [disabled]="otpSent"
+            placeholder="Enter main admin password">
+          <small>Required only for creating an admin account.</small>
+        </div>
+
+        <button
+          class="btn auth-btn w-100"
+          type="button"
+          *ngIf="!otpSent"
+          [disabled]="isLoading"
+          (click)="sendOtp()">
+          <span *ngIf="!isLoading">Send OTP</span>
+          <span *ngIf="isLoading">Sending OTP...</span>
+        </button>
+
+        <div class="otp-box" *ngIf="otpSent">
+          <label class="form-label">Enter OTP</label>
+          <input
+            type="text"
+            class="form-control"
+            name="otp"
+            [(ngModel)]="otp"
+            maxlength="6"
+            placeholder="Enter 6 digit OTP">
+          <small>Check C06NotificationService console for the OTP.</small>
+        </div>
+
+        <button
+          class="btn auth-btn w-100"
+          type="button"
+          *ngIf="otpSent"
+          [disabled]="isLoading"
+          (click)="verifyOtpAndRegister()">
+          <span *ngIf="!isLoading">Verify OTP & Create Account</span>
+          <span *ngIf="isLoading">Verifying OTP...</span>
+        </button>
+
+        <button
+          class="btn btn-outline-secondary w-100 edit-btn"
+          type="button"
+          *ngIf="otpSent"
+          [disabled]="isLoading"
+          (click)="editDetails()">
+          Edit Details
+        </button>
+      </form>
+
+      <div class="auth-footer-text">
+        Already have an account?
+        <a routerLink="/login">Login here</a>
+      </div>
+    </div>
+
+  </div>
+</section>

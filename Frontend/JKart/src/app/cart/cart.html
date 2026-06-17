@@ -1,0 +1,112 @@
+<section class="cart-page">
+  <div class="container">
+
+    <div class="cart-header">
+      <div>
+        <span class="cart-badge">Shopping Cart</span>
+        <h2>My Cart</h2>
+        <p>Review products, add delivery address, and continue to payment.</p>
+      </div>
+
+      <button class="btn btn-outline-danger rounded-pill" type="button" *ngIf="cartItems.length > 0" (click)="clearCart()">
+        Clear Cart
+      </button>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <div class="empty-cart" *ngIf="cartItems.length === 0">
+      <h4>Your cart is empty</h4>
+      <p>Add products to your cart and come back for checkout.</p>
+      <a routerLink="/products" class="btn btn-primary rounded-pill">Browse Products</a>
+    </div>
+
+    <div class="cart-layout" *ngIf="cartItems.length > 0">
+
+      <div class="cart-items-card">
+        <div class="cart-item" *ngFor="let item of cartItems">
+          <div class="cart-image">
+            <img [src]="getImageUrl(item)" [alt]="item.name">
+          </div>
+
+          <div class="cart-info">
+            <span class="category-pill">{{ item.category }}</span>
+            <h5>{{ item.name }}</h5>
+            <p>{{ item.description }}</p>
+            <strong>₹{{ item.price }}</strong>
+          </div>
+
+          <div class="quantity-box">
+            <button type="button" (click)="decreaseQuantity(item)">-</button>
+            <span>{{ item.quantity }}</span>
+            <button type="button" (click)="increaseQuantity(item)">+</button>
+          </div>
+
+          <div class="item-total">
+            <span>Total</span>
+            <strong>₹{{ item.price * item.quantity }}</strong>
+            <button class="btn btn-outline-danger btn-sm rounded-pill" type="button" (click)="removeItem(item.id)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-card">
+        <h4>Delivery Address</h4>
+
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="fullName" [(ngModel)]="address.fullName">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Mobile Number</label>
+            <input type="text" class="form-control" name="mobile" [(ngModel)]="address.mobile" placeholder="10 digit mobile number">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea class="form-control" rows="3" name="addressLine" [(ngModel)]="address.addressLine"></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">City</label>
+              <input type="text" class="form-control" name="city" [(ngModel)]="address.city">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label class="form-label">State</label>
+              <input type="text" class="form-control" name="state" [(ngModel)]="address.state">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Pincode</label>
+            <input type="text" class="form-control" name="pincode" [(ngModel)]="address.pincode" placeholder="6 digit pincode">
+          </div>
+        </form>
+
+        <div class="summary-line">
+          <span>Items</span>
+          <strong>{{ cartItems.length }}</strong>
+        </div>
+
+        <div class="summary-line total-line">
+          <span>Total Amount</span>
+          <strong>₹{{ getTotalAmount() }}</strong>
+        </div>
+
+        <button class="btn btn-primary checkout-btn" type="button" [disabled]="isPlacingOrder" (click)="checkout()">
+          {{ isPlacingOrder ? 'Placing Order...' : 'Continue to Payment' }}
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+

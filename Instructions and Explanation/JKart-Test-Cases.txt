@@ -1,0 +1,514 @@
+JKart E-Commerce Platform - Test Cases
+
+Project Name:
+JKart E-Commerce Platform - Multi-Vendor Marketplace
+
+Purpose:
+This document contains functional test cases for the JKart E-Commerce Platform. The test cases cover authentication, product management, admin approval, customer shopping, cart, order placement, payment, invoice, notification logging, and role-based access.
+
+============================================================
+1. AUTHENTICATION TEST CASES
+============================================================
+
+Test Case ID: TC-AUTH-01
+Module: Authentication
+Test Scenario: Register a new customer
+Precondition: Auth Service and API Gateway are running
+Test Steps:
+1. Open Angular Register page or Postman register API.
+2. Enter name, email, password, and role as CUSTOMER.
+3. Submit the registration form.
+Expected Result:
+Customer account should be created successfully.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-AUTH-02
+Module: Authentication
+Test Scenario: Register a new vendor
+Precondition: Auth Service and API Gateway are running
+Test Steps:
+1. Open Angular Register page or Postman register API.
+2. Enter name, email, password, and role as VENDOR.
+3. Submit the registration form.
+Expected Result:
+Vendor account should be created successfully.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-AUTH-03
+Module: Authentication
+Test Scenario: Register a new admin
+Precondition: Auth Service and API Gateway are running
+Test Steps:
+1. Open Angular Register page or Postman register API.
+2. Enter name, email, password, and role as ADMIN.
+3. Submit the registration form.
+Expected Result:
+Admin account should be created successfully.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-AUTH-04
+Module: Authentication
+Test Scenario: Login with valid credentials
+Precondition: User must already be registered
+Test Steps:
+1. Open Login page.
+2. Enter valid email and password.
+3. Click Login.
+Expected Result:
+User should login successfully and navigate to the application based on role.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-AUTH-05
+Module: Authentication
+Test Scenario: Login with invalid credentials
+Precondition: User enters wrong password or invalid email
+Test Steps:
+1. Open Login page.
+2. Enter invalid email or password.
+3. Click Login.
+Expected Result:
+Application should show login error message.
+Status: Pass
+
+============================================================
+2. ROLE-BASED NAVIGATION TEST CASES
+============================================================
+
+Test Case ID: TC-ROLE-01
+Module: Navbar / Role Access
+Test Scenario: Customer navbar verification
+Precondition: Customer is logged in
+Test Steps:
+1. Login as CUSTOMER.
+2. Observe navbar links.
+Expected Result:
+Customer should see Home, Products, Cart, Orders, role badge, welcome name, and Logout.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-ROLE-02
+Module: Navbar / Role Access
+Test Scenario: Vendor navbar verification
+Precondition: Vendor is logged in
+Test Steps:
+1. Login as VENDOR.
+2. Observe navbar links.
+Expected Result:
+Vendor should see Home, Products, role badge, welcome name, and Logout. Cart should not be visible.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-ROLE-03
+Module: Navbar / Role Access
+Test Scenario: Admin navbar verification
+Precondition: Admin is logged in
+Test Steps:
+1. Login as ADMIN.
+2. Observe navbar links.
+Expected Result:
+Admin should see Home, Products, Orders, role badge, welcome name, and Logout.
+Status: Pass
+
+============================================================
+3. PRODUCT MANAGEMENT TEST CASES
+============================================================
+
+Test Case ID: TC-PROD-01
+Module: Product Management
+Test Scenario: Vendor adds a new product
+Precondition: Vendor is logged in
+Test Steps:
+1. Open Products page.
+2. Click Add Product.
+3. Enter product name, price, quantity, category, image URL, and description.
+4. Click Save Product.
+Expected Result:
+Product should be saved with PENDING status.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PROD-02
+Module: Product Management
+Test Scenario: Admin approves a product
+Precondition: Admin is logged in and product is in PENDING status
+Test Steps:
+1. Open Products page.
+2. Find pending product.
+3. Click Approve.
+Expected Result:
+Product status should become APPROVED.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PROD-03
+Module: Product Management
+Test Scenario: Admin rejects a product
+Precondition: Admin is logged in and product is in PENDING status
+Test Steps:
+1. Open Products page.
+2. Find pending product.
+3. Click Reject.
+Expected Result:
+Product status should become REJECTED.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PROD-04
+Module: Product Catalog
+Test Scenario: Customer views approved products
+Precondition: Customer is logged in and approved products exist
+Test Steps:
+1. Login as Customer.
+2. Open Products page.
+Expected Result:
+Only approved products should be visible to customer.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PROD-05
+Module: Product Catalog
+Test Scenario: View product details
+Precondition: Product exists
+Test Steps:
+1. Open Products page.
+2. Click View Details on a product.
+Expected Result:
+Product details page should display product name, image, category, price, quantity, vendor, status, and description.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PROD-06
+Module: Product Catalog
+Test Scenario: Product category filter
+Precondition: Products exist with categories
+Test Steps:
+1. Open Products page.
+2. Select a category from dropdown.
+Expected Result:
+Only products matching selected category should be displayed.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PROD-07
+Module: Product Catalog
+Test Scenario: Product search
+Precondition: Products exist
+Test Steps:
+1. Open Products page.
+2. Enter product name, vendor, description, or category in search box.
+Expected Result:
+Products matching search text should be displayed.
+Status: Pass
+
+============================================================
+4. CART TEST CASES
+============================================================
+
+Test Case ID: TC-CART-01
+Module: Cart
+Test Scenario: Add product to cart
+Precondition: Customer is logged in and product is APPROVED
+Test Steps:
+1. Open Products or Product Details page.
+2. Click Add to Cart.
+Expected Result:
+Product should be added to cart and success message should be displayed.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-CART-02
+Module: Cart
+Test Scenario: Increase cart quantity
+Precondition: Product exists in cart
+Test Steps:
+1. Open Cart page.
+2. Click increase quantity button.
+Expected Result:
+Product quantity should increase and total amount should update.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-CART-03
+Module: Cart
+Test Scenario: Decrease cart quantity
+Precondition: Product exists in cart with quantity greater than 1
+Test Steps:
+1. Open Cart page.
+2. Click decrease quantity button.
+Expected Result:
+Product quantity should decrease and total amount should update.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-CART-04
+Module: Cart
+Test Scenario: Remove product from cart
+Precondition: Product exists in cart
+Test Steps:
+1. Open Cart page.
+2. Click Remove button.
+Expected Result:
+Product should be removed from cart.
+Status: Pass
+
+============================================================
+5. ORDER MANAGEMENT TEST CASES
+============================================================
+
+Test Case ID: TC-ORDER-01
+Module: Order Management
+Test Scenario: Customer places order
+Precondition: Customer is logged in and cart contains product
+Test Steps:
+1. Open Cart page.
+2. Click Place Order.
+Expected Result:
+Order should be created successfully, cart should clear, and user should be redirected to Orders page.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-ORDER-02
+Module: Order Management
+Test Scenario: Customer views order history
+Precondition: Customer has placed at least one order
+Test Steps:
+1. Open Orders page.
+Expected Result:
+Customer orders should be displayed with order status and payment status.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-ORDER-03
+Module: Order Management
+Test Scenario: Admin views all orders
+Precondition: Admin is logged in and orders exist
+Test Steps:
+1. Login as Admin.
+2. Open Orders page.
+Expected Result:
+Admin should see all customer orders.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-ORDER-04
+Module: Order Management
+Test Scenario: Customer cancels unpaid order
+Precondition: Customer has order with PENDING payment status
+Test Steps:
+1. Open Orders page.
+2. Click Cancel on unpaid order.
+Expected Result:
+Order status should become CANCELLED.
+Status: Pass
+
+============================================================
+6. PAYMENT TEST CASES
+============================================================
+
+Test Case ID: TC-PAY-01
+Module: Payment
+Test Scenario: Open payment page
+Precondition: Customer has an order with PENDING payment status
+Test Steps:
+1. Open Orders page.
+2. Click Pay Now.
+Expected Result:
+Payment page should open with order summary.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PAY-02
+Module: Payment
+Test Scenario: Complete payment with valid details
+Precondition: Customer is on payment page
+Test Steps:
+1. Enter card holder name.
+2. Enter card number.
+3. Enter expiry and CVV.
+4. Click Pay Now.
+Expected Result:
+Payment should complete successfully, payment status should become PAID, and order status should become CONFIRMED.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-PAY-03
+Module: Payment
+Test Scenario: Submit card payment with missing details
+Precondition: Customer is on payment page and selected card payment
+Test Steps:
+1. Leave one or more card fields empty.
+2. Click Pay Now.
+Expected Result:
+Application should display validation message asking for complete card details.
+Status: Pass
+
+============================================================
+7. INVOICE TEST CASES
+============================================================
+
+Test Case ID: TC-INV-01
+Module: Invoice
+Test Scenario: Open invoice after payment
+Precondition: Payment is completed successfully
+Test Steps:
+1. Complete payment.
+2. Wait for redirect to Invoice page.
+Expected Result:
+Invoice page should display order and payment details.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-INV-02
+Module: Invoice
+Test Scenario: Download invoice PDF
+Precondition: Invoice page is open
+Test Steps:
+1. Click Download Invoice button.
+Expected Result:
+PDF invoice should be downloaded successfully.
+Status: Pass
+
+============================================================
+8. NOTIFICATION TEST CASES
+============================================================
+
+Test Case ID: TC-NOTIFY-01
+Module: Notification Service
+Test Scenario: Payment notification log
+Precondition: Payment is completed
+Test Steps:
+1. Complete payment for an order.
+2. Check C06NotificationService console.
+Expected Result:
+Notification Service should log payment confirmation message with order ID and email.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-NOTIFY-02
+Module: Notification Service
+Test Scenario: Test notification API
+Precondition: Notification Service and API Gateway are running
+Test Steps:
+1. Call GET http://localhost:9090/api/notifications/test from browser or Postman.
+Expected Result:
+Response should show Notification Service is working.
+Status: Pass
+
+============================================================
+9. API TEST CASES USING POSTMAN
+============================================================
+
+Test Case ID: TC-API-01
+Module: Auth API
+Test Scenario: Register user using Postman
+API:
+POST http://localhost:9090/api/auth/register
+Expected Result:
+User should be registered successfully.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-API-02
+Module: Product API
+Test Scenario: Get approved products using Postman
+API:
+GET http://localhost:9090/api/products/approved
+Expected Result:
+Approved products list should be returned.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-API-03
+Module: Order API
+Test Scenario: Place order using Postman
+API:
+POST http://localhost:9090/api/orders
+Expected Result:
+Order should be created successfully.
+Status: Pass
+
+------------------------------------------------------------
+
+Test Case ID: TC-API-04
+Module: Order API
+Test Scenario: Make payment using Postman
+API:
+PUT http://localhost:9090/api/orders/{orderId}/pay
+Expected Result:
+Payment status should become PAID and order status should become CONFIRMED.
+Status: Pass
+
+============================================================
+10. FINAL END-TO-END TEST CASE
+============================================================
+
+Test Case ID: TC-E2E-01
+Module: Complete JKart Flow
+Test Scenario: Full application flow from vendor product creation to invoice download
+Precondition:
+All backend services, API Gateway, MySQL, and Angular app are running
+Test Steps:
+1. Login as Vendor.
+2. Add product with category and image URL.
+3. Logout Vendor.
+4. Login as Admin.
+5. Approve the pending product.
+6. Logout Admin.
+7. Login as Customer.
+8. Browse and filter products.
+9. Open product details.
+10. Add product to cart.
+11. Place order.
+12. Open Orders page.
+13. Complete payment.
+14. Open Invoice page.
+15. Download invoice PDF.
+Expected Result:
+Complete vendor, admin, and customer workflow should work successfully without errors.
+Status: Pass
+
+============================================================
+11. SUMMARY
+============================================================
+
+The above test cases verify the core JKart E-Commerce Platform modules:
+- Authentication and authorization
+- Role-based navigation
+- Product management
+- Product approval workflow
+- Product catalog and filtering
+- Cart management
+- Order management
+- Payment processing
+- Invoice generation
+- Notification logs
+- API testing
+- End-to-end business workflow

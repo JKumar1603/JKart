@@ -1,0 +1,111 @@
+.jmart-footer {
+  background: #172337;
+  color: #ffffff;
+  margin-top: 45px;
+}
+
+.footer-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 28px 22px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 28px;
+}
+
+.footer-column h5 {
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.footer-column a {
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.footer-column a:hover {
+  color: #ffe500;
+}
+
+.footer-about p,
+.footer-address p {
+  color: #e5e7eb;
+  line-height: 1.55;
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.built-by {
+  color: #ffe500 !important;
+  margin-top: 10px !important;
+}
+
+.built-by strong {
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.footer-mail {
+  color: #ffe500 !important;
+}
+
+.social-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.social-row span {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #64748b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 14px 28px;
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+  flex-wrap: wrap;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.payment-icons {
+  color: #ffe500;
+}
+
+@media (max-width: 992px) {
+  .footer-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    padding: 24px 18px 18px;
+  }
+
+  .footer-bottom {
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+  }
+}

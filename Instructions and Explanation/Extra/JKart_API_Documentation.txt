@@ -1,0 +1,145 @@
+JKart API Documentation
+
+Project: JKart E-Commerce Platform
+Gateway Base URL: http://localhost:9090
+
+OVERVIEW
+JKart uses Spring Cloud Gateway as a single entry point for backend APIs.
+Configured route groups:
+- /api/auth/** -> C03AuthService
+- /api/products/** -> C04ProductService
+- /api/orders/** -> C05OrderService
+- /api/notifications/** -> C06NotificationService
+
+AUTH SERVICE APIs
+1. POST /api/auth/register
+Purpose: Register a new user.
+Sample Body:
+{
+  "name": "Jay Kumar",
+  "email": "jay@example.com",
+  "password": "Jay@1234",
+  "role": "CUSTOMER"
+}
+
+2. POST /api/auth/send-otp
+Purpose: Send OTP for registration flow.
+Sample Body:
+{
+  "name": "Jay Kumar",
+  "email": "jay@example.com",
+  "password": "Jay@1234",
+  "role": "CUSTOMER"
+}
+
+3. POST /api/auth/verify-otp
+Purpose: Verify OTP and complete registration.
+Sample Body:
+{
+  "email": "jay@example.com",
+  "otp": "123456"
+}
+
+4. POST /api/auth/login
+Purpose: Authenticate user and return JWT token.
+Sample Body:
+{
+  "email": "admin@gmail.com",
+  "password": "Jay@1234"
+}
+
+5. GET /api/auth/stats
+Purpose: Return user statistics for dashboard.
+
+6. GET /api/auth/users
+Purpose: Return all users.
+Header:
+Authorization: Bearer <token>
+
+PRODUCT SERVICE APIs
+1. GET /api/products
+Purpose: Get all products.
+
+2. GET /api/products/{id}
+Purpose: Get product details by id.
+
+3. POST /api/products
+Purpose: Add product.
+Sample Body:
+{
+  "name": "Wireless Headphones",
+  "description": "Bluetooth noise cancelling headphones",
+  "price": 2999,
+  "quantity": 25,
+  "vendor": "JK Electronics",
+  "status": "APPROVED",
+  "category": "Electronics",
+  "imageUrl": "https://example.com/headphones.jpg"
+}
+
+4. PUT /api/products/{id}
+Purpose: Update product.
+
+5. DELETE /api/products/{id}
+Purpose: Delete product.
+
+6. GET /api/products/search?keyword=laptop
+Purpose: Search products.
+
+7. GET /api/products/category/{category}
+Purpose: Filter products by category.
+
+ORDER SERVICE APIs
+1. POST /api/orders
+Purpose: Place order.
+Sample Body:
+{
+  "customerId": 1,
+  "customerEmail": "jay@example.com",
+  "productId": 1,
+  "quantity": 1,
+  "totalAmount": 2999,
+  "orderStatus": "PLACED",
+  "paymentStatus": "PENDING"
+}
+
+2. GET /api/orders/customer/{customerId}
+Purpose: Get orders for a customer.
+
+3. GET /api/orders
+Purpose: Get all orders.
+
+4. GET /api/orders/{id}
+Purpose: Get order by id.
+
+5. PUT /api/orders/{id}/payment-status
+Purpose: Update payment status.
+Sample Body:
+{
+  "paymentStatus": "PAID"
+}
+
+NOTIFICATION SERVICE APIs
+1. GET /api/notifications/test
+Purpose: Test notification service.
+
+2. GET /api/notifications/registration?email=&name=
+Purpose: Log registration notification.
+
+3. GET /api/notifications/otp?email=&name=&otp=
+Purpose: Log OTP notification.
+
+4. GET /api/notifications/order?email=&orderId=
+Purpose: Log order notification.
+
+5. GET /api/notifications/payment?email=&orderId=&status=
+Purpose: Log payment notification.
+
+6. GET /api/notifications/custom?message=
+Purpose: Log custom notification.
+
+NOTES
+- Use API Gateway URL for end-to-end testing.
+- Login API returns JWT token for secured APIs.
+- Product and order paths follow the finalized JKart microservice routing structure.
+- Notification APIs are used mainly for logging and verification.

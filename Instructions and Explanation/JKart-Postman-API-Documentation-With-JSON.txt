@@ -1,0 +1,339 @@
+JKart E-Commerce Microservices API Collection
+
+Base URL
+http://localhost:9090
+
+Backend service startup order:
+1. C01EurekaServer
+2. C03AuthService
+3. C04ProductService
+4. C05OrderService
+5. C06NotificationService
+6. C02ApiGateway
+
+============================================================
+1. AUTH SERVICE APIs
+============================================================
+
+1.1 Register Customer
+POST http://localhost:9090/api/auth/register
+
+Body:
+{
+  "name": "Jay Kumar",
+  "email": "jay@gmail.com",
+  "password": "1234",
+  "role": "CUSTOMER"
+}
+
+1.2 Register Vendor
+POST http://localhost:9090/api/auth/register
+
+Body:
+{
+  "name": "Wolvie",
+  "email": "vendor@gmail.com",
+  "password": "1234",
+  "role": "VENDOR"
+}
+
+1.3 Register Admin
+POST http://localhost:9090/api/auth/register
+
+Body:
+{
+  "name": "Admin User",
+  "email": "admin@gmail.com",
+  "password": "1234",
+  "role": "ADMIN"
+}
+
+1.4 Login Customer
+POST http://localhost:9090/api/auth/login
+
+Body:
+{
+  "email": "jay@gmail.com",
+  "password": "1234"
+}
+
+Expected Response:
+{
+  "token": "jwt-token",
+  "message": "Login successful",
+  "userId": 1,
+  "name": "Jay Kumar",
+  "email": "jay@gmail.com",
+  "role": "CUSTOMER"
+}
+
+1.5 Login Vendor
+POST http://localhost:9090/api/auth/login
+
+Body:
+{
+  "email": "vendor@gmail.com",
+  "password": "1234"
+}
+
+1.6 Login Admin
+POST http://localhost:9090/api/auth/login
+
+Body:
+{
+  "email": "admin@gmail.com",
+  "password": "1234"
+}
+
+============================================================
+2. PRODUCT SERVICE APIs
+============================================================
+
+2.1 Test Product Service
+GET http://localhost:9090/api/products/test
+
+Expected:
+Product Service is working
+
+2.2 Add Product by Vendor
+POST http://localhost:9090/api/products
+
+Body:
+{
+  "name": "Wireless Gaming Mouse",
+  "description": "RGB wireless gaming mouse with high precision sensor",
+  "price": 1500,
+  "quantity": 20,
+  "vendor": "Wolvie",
+  "status": "PENDING",
+  "category": "Gaming",
+  "imageUrl": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=800&q=80"
+}
+
+Expected:
+Product created with status PENDING
+
+2.3 Get All Products
+GET http://localhost:9090/api/products
+
+Use case:
+Admin can view all products.
+
+2.4 Get Approved Products
+GET http://localhost:9090/api/products/approved
+
+Use case:
+Customer product catalog.
+
+2.5 Get Product By ID
+GET http://localhost:9090/api/products/1
+
+2.6 Approve Product
+PUT http://localhost:9090/api/products/1/approve
+
+Expected:
+Product status becomes APPROVED
+
+2.7 Reject Product
+PUT http://localhost:9090/api/products/1/reject
+
+Expected:
+Product status becomes REJECTED
+
+2.8 Update Product Quantity
+PUT http://localhost:9090/api/products/1/quantity?quantity=50
+
+2.9 Search Product By Name
+GET http://localhost:9090/api/products/search?name=laptop
+
+2.10 Get Products By Vendor
+GET http://localhost:9090/api/products/vendor/Wolvie
+
+2.11 Delete Product
+DELETE http://localhost:9090/api/products/1
+
+============================================================
+3. ORDER SERVICE APIs
+============================================================
+
+Before testing order APIs, make sure:
+- Product exists
+- Product status is APPROVED
+- Product quantity is available
+- Customer exists
+
+3.1 Test Order Service
+GET http://localhost:9090/api/orders/test
+
+Expected:
+Order Service is working
+
+3.2 Place Order
+POST http://localhost:9090/api/orders
+
+Body:
+{
+  "customerId": 1,
+  "customerEmail": "jay@gmail.com",
+  "productId": 1,
+  "quantity": 2
+}
+
+Expected Response:
+{
+  "id": 1,
+  "customerId": 1,
+  "customerEmail": "jay@gmail.com",
+  "productId": 1,
+  "quantity": 2,
+  "totalAmount": 3000.0,
+  "orderStatus": "PLACED",
+  "paymentStatus": "PENDING"
+}
+
+3.3 Get All Orders
+GET http://localhost:9090/api/orders
+
+Use case:
+Admin can view all orders.
+
+3.4 Get Order By ID
+GET http://localhost:9090/api/orders/1
+
+3.5 Get Orders By Customer ID
+GET http://localhost:9090/api/orders/customer/1
+
+3.6 Make Payment
+PUT http://localhost:9090/api/orders/1/pay
+
+Expected:
+orderStatus = CONFIRMED
+paymentStatus = PAID
+
+3.7 Cancel Order
+PUT http://localhost:9090/api/orders/1/cancel
+
+Use only before payment.
+
+Expected:
+Order status becomes CANCELLED
+
+3.8 Delete Order
+DELETE http://localhost:9090/api/orders/1
+
+Use case:
+Admin can delete order.
+
+============================================================
+4. NOTIFICATION SERVICE APIs
+============================================================
+
+4.1 Test Notification Service
+GET http://localhost:9090/api/notifications/test
+
+Expected:
+Notification Service is working
+
+4.2 Registration Notification
+GET http://localhost:9090/api/notifications/registration?email=jay@gmail.com&name=Jay Kumar
+
+4.3 Order Confirmation Notification
+GET http://localhost:9090/api/notifications/order?email=jay@gmail.com&orderId=1
+
+4.4 Payment Confirmation Notification
+GET http://localhost:9090/api/notifications/payment?email=jay@gmail.com&orderId=1
+
+4.5 Custom Notification
+GET http://localhost:9090/api/notifications/custom?email=jay@gmail.com&message=Your order has been shipped
+
+============================================================
+RECOMMENDED POSTMAN FOLDER STRUCTURE
+============================================================
+
+JKart E-Commerce Microservices API Collection
+
+1. Auth Service
+   - Register Customer
+   - Register Vendor
+   - Register Admin
+   - Login Customer
+   - Login Vendor
+   - Login Admin
+
+2. Product Service
+   - Test Product Service
+   - Add Product
+   - Get All Products
+   - Get Approved Products
+   - Get Product By ID
+   - Approve Product
+   - Reject Product
+   - Update Quantity
+   - Search Product
+   - Get Products By Vendor
+   - Delete Product
+
+3. Order Service
+   - Test Order Service
+   - Place Order
+   - Get All Orders
+   - Get Order By ID
+   - Get Orders By Customer ID
+   - Make Payment
+   - Cancel Order
+   - Delete Order
+
+4. Notification Service
+   - Test Notification Service
+   - Registration Notification
+   - Order Notification
+   - Payment Notification
+   - Custom Notification
+
+============================================================
+FINAL DEMO TESTING ORDER IN POSTMAN
+============================================================
+
+1. Register Customer
+2. Register Vendor
+3. Register Admin
+4. Login Customer
+5. Login Vendor
+6. Vendor adds product
+7. Admin approves product
+8. Customer views approved products
+9. Customer places order
+10. Product quantity reduces
+11. Customer makes payment
+12. Payment status becomes PAID
+13. Order status becomes CONFIRMED
+14. Notification APIs tested
+15. Admin views all orders
+
+============================================================
+IMPORTANT DEMO NOTES
+============================================================
+
+Use these values consistently:
+
+Customer:
+email = jay@gmail.com
+password = 1234
+
+Vendor:
+email = wolvie@gmail.com
+password = 1234
+
+Admin:
+email = admin@gmail.com
+password = 1234
+
+Base URL:
+http://localhost:9090
+
+Before testing, Eureka dashboard should show:
+- C02APIGATEWAY
+- C03AUTHSERVICE
+- C04PRODUCTSERVICE
+- C05ORDERSERVICE
+- C06NOTIFICATIONSERVICE

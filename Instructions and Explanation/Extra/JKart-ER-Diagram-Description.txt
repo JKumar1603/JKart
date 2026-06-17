@@ -1,0 +1,212 @@
+JKart E-Commerce Platform - ER Diagram Description
+
+Project Name:
+JKart E-Commerce Platform - Multi-Vendor Marketplace
+
+Purpose:
+This document describes the database entities and relationships used in the JKart E-Commerce Platform. The project includes authentication, product management, inventory management, order management, payment processing, and Angular marketplace portal features.
+
+============================================================
+1. MAIN ENTITIES
+============================================================
+
+1.1 users
+
+Description:
+The users table stores all registered users of the system. Users can have roles such as CUSTOMER, VENDOR, or ADMIN.
+
+Columns:
+- id: Primary key
+- name: Name of the user
+- email: Unique email address used for login
+- password: Encrypted password
+- role: User role such as CUSTOMER, VENDOR, or ADMIN
+
+Used For:
+- Customer registration and login
+- Vendor registration and login
+- Admin registration and login
+- Role-based access control
+
+------------------------------------------------------------
+
+1.2 products
+
+Description:
+The products table stores product details added by vendors. Products are approved or rejected by the admin before being visible to customers.
+
+Columns:
+- id: Primary key
+- name: Product name
+- description: Product description
+- price: Product price
+- quantity: Available product stock
+- vendor: Vendor name
+- status: Product approval status such as PENDING, APPROVED, or REJECTED
+- category: Product category such as Electronics, Mobiles, Gaming, Fashion, Beauty, etc.
+- image_url: Product image URL used in Angular UI
+
+Used For:
+- Product catalog
+- Vendor product creation
+- Inventory management
+- Admin approval workflow
+- Product category filtering
+- Product image display
+
+------------------------------------------------------------
+
+1.3 orders
+
+Description:
+The orders table stores customer orders. Each order is linked to one customer and one product.
+
+Columns:
+- id: Primary key
+- customer_id: Customer user ID
+- customer_email: Customer email address
+- product_id: Ordered product ID
+- quantity: Ordered quantity
+- total_amount: Final order amount
+- order_status: Order status such as PLACED, CONFIRMED, or CANCELLED
+- payment_status: Payment status such as PENDING or PAID
+
+Used For:
+- Order placement
+- Payment processing
+- Order tracking
+- Invoice generation
+- Admin order monitoring
+
+============================================================
+2. ENTITY RELATIONSHIPS
+============================================================
+
+2.1 User to Orders
+
+Relationship:
+One customer can place many orders.
+
+Type:
+users 1 ---- many orders
+
+Explanation:
+The orders.customer_id field refers to users.id. A customer can have multiple orders, but each order belongs to one customer.
+
+------------------------------------------------------------
+
+2.2 Product to Orders
+
+Relationship:
+One product can appear in many orders.
+
+Type:
+products 1 ---- many orders
+
+Explanation:
+The orders.product_id field refers to products.id. A product can be ordered multiple times, but each order record contains one product.
+
+------------------------------------------------------------
+
+2.3 Vendor to Products
+
+Relationship:
+One vendor can create many products.
+
+Type:
+users 1 ---- many products
+
+Explanation:
+In this simplified implementation, the products table stores the vendor name in the vendor column. Vendor identity is managed through the users table using the VENDOR role.
+
+============================================================
+3. TEXT-BASED ER DIAGRAM
+============================================================
+
++-----------------------------+
+|            users            |
++-----------------------------+
+| id PK                       |
+| name                        |
+| email UNIQUE                |
+| password                    |
+| role                        |
++-----------------------------+
+              |
+              | 1
+              |
+              | places
+              |
+              | many
++-----------------------------+
+|            orders           |
++-----------------------------+
+| id PK                       |
+| customer_id                 |
+| customer_email              |
+| product_id                  |
+| quantity                    |
+| total_amount                |
+| order_status                |
+| payment_status              |
++-----------------------------+
+              |
+              | many
+              |
+              | contains
+              |
+              | 1
++-----------------------------+
+|           products          |
++-----------------------------+
+| id PK                       |
+| name                        |
+| description                 |
+| price                       |
+| quantity                    |
+| vendor                      |
+| status                      |
+| category                    |
+| image_url                   |
++-----------------------------+
+
+============================================================
+4. RELATIONAL VIEW
+============================================================
+
+users.id                 -> orders.customer_id
+products.id              -> orders.product_id
+users.name with role VENDOR -> products.vendor
+
+============================================================
+5. NOTES
+============================================================
+
+1. Notification Service does not require a separate database table in the current implementation because notifications are handled using service API calls and console logs.
+
+2. Payment does not require a separate database table in the current implementation because payment_status is maintained inside the orders table.
+
+3. Cart does not require a database table in the current implementation because cart data is maintained in Angular localStorage before order placement.
+
+4. Product inventory is handled through the products.quantity column.
+
+5. Product approval workflow is handled through the products.status column.
+
+============================================================
+6. SUMMARY
+============================================================
+
+The JKart database design contains three main entities:
+- users
+- products
+- orders
+
+These tables support the main business workflows required in the e-commerce platform:
+- User authentication and role-based access
+- Vendor product creation
+- Admin product approval
+- Customer product browsing
+- Cart and checkout flow
+- Order placement
+- Payment status tracking
+- Invoice generation
